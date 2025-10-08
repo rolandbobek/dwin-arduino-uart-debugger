@@ -1,0 +1,129 @@
+:host {
+  display: flex;
+  flex-direction: column;
+
+  height: 100vh;
+}
+
+h1 {
+  padding: 0 7px;
+}
+
+.ports {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 10px 0;
+  padding: 10px;
+
+  
+  .port-list {
+    height: 110px;
+    overflow-y: auto;
+  }
+
+  .manufacturer {
+    font-weight: 700;
+    line-height: 1.2;
+    font-size: 1.1rem;
+  }
+}
+
+.output {
+  flex-grow: 1;
+  position: relative;
+  
+  width: 100vw;
+
+  overflow-y: auto;
+
+  .content {
+    min-height: 100%;
+    background-color: #ededed;
+    font-family: 'Roboto Mono';
+  }
+
+  .line {
+    padding: 0 7px;
+
+    display: flex;
+    flex-direction: row;
+
+    .sender {
+      flex-basis: 100px;
+      flex-shrink: 0;
+    }
+    .hex {
+      flex-basis: 0%;
+      flex-grow: 1;
+      padding: 0 7px;
+    }
+    .str {
+      word-break: break-word;
+      padding-left: 7px;
+      border-left: solid thin #706e6e;
+      flex-basis: 25%;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.output .line.translate {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background-color: aquamarine;
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    font-weight: 800;
+    gap: 7px;
+  }
+
+  .data {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.input-slot {
+  font-family: 'Roboto Mono';
+  
+  display: flex;
+  flex-direction: column;
+
+  margin-bottom: 7px;
+  padding: 0 7px;
+
+  .input-slot-header {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .input-slot-sender {
+    form {
+      display: flex;
+      flex-direction: row;
+      
+    }
+  }
+
+  .dwin {
+    .length, .address, .command {
+      flex-basis: 10%;
+      flex-grow: 0;
+      flex-shrink: 0;
+    }
+  }
+
+  .value {
+    flex-basis: 0%;
+    flex-grow: 1;
+    padding: 7px;
+  }
+
+  button {
+    flex-basis: 10%;
+  }
+}

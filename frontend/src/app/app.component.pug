@@ -1,0 +1,80 @@
+h1 DWIN Uart Debugger
+
+
+.ports
+  button((click)="listPorts()") listPorts
+  
+  .port-list
+    |@for (port of ports; track port.path) {
+    .port
+      |@if (port.manufacturer){
+      .manufacturer {{port.manufacturer}}
+      |}
+      .path {{port.path}}
+      .controls
+        
+        |@if (port.connected) {
+        button((click)="disconnect(port.path)") disconnect
+        |}
+
+        |@if (connectedPath !== port.path && port.connected) {
+        button((click)="attach(port.path)") Attach
+        |} @else {
+        button([disabled]="!!connectedPath", (click)="connect(port.path)") connect
+        |}
+    |}
+
+.output
+  .content
+    |@for(line of lines(); track line.date) {
+    .line
+      .sender {{line.sender}}:
+      .hex {{line.data | hex }}
+      .str {{line.data | hex:'str' }}
+    |@if (line.translation) {
+    .line.translate
+      .header
+        span {{line.translation.cmd}}
+        span VP: {{line.translation.vp | hex }} ({{line.translation.responseLength}})
+      |@if(line.translation.data) {
+      .data
+        .hex {{line.translation.data | hex }}
+        .str {{line.translation.data | hex:'str' }}
+      |}
+    |}
+    |}
+
+.input-slot
+  .input-slot-header
+    select([formControl]="inputTypeSelectorControl")
+      option(value="hex") HEX
+      option(value="string") STRING
+      option(value="dwin") DWIN
+  .input-slot-sender
+
+    |@if (inputTypeSelectorControl.value === 'hex') {
+    form.hex([formGroup]="formHex", (submit)="sendHex()")
+      input.value(type="text", formControlName="value")
+      button(type="submit", [disabled]="!connectedPath || formHex.invalid") Send
+
+    |} @else if (inputTypeSelectorControl.value === 'string') {
+    form.string([formGroup]="formString", (submit)="sendString()")
+      input.value(type="text", formControlName="value")
+      button(type="submit", [disabled]="!connectedPath || formString.invalid") Send
+
+    |} @else if (inputTypeSelectorControl.value === 'dwin') {
+    form.dwin([formGroup]="formDwin", (submit)="sendDwin()")
+      select.command(formControlName="command")
+        option(value="read") Read
+        option(value="write") Write
+      |@if (formDwin.get('command')?.value === 'read') {
+      input.length(type="text", formControlName="len")
+      |}
+      input.address(type="text", formControlName="address")
+      |@if (formDwin.get('command')?.value === 'write') {
+      input.value(type="text", formControlName="value")
+      |} @else {
+      .spacer
+      |}
+      button(type="submit", [disabled]="!connectedPath || formDwin.invalid") Send
+    |}
