@@ -76,7 +76,7 @@ Answer from LCM:5AA5 0683 1000 01 0002 \
 ## Start program
 
 - > cd frontend
-- > npm run
+- > npm start
 #
 - > cd backend
 - > npm run electron
